@@ -1,7 +1,7 @@
 import pandas as pd
 
 # 2014年のデータをつかって以下の問題に答えよ
-
+## - - - - - - - - - - - - - - - - - - - - - -
 # memorable code
 # data = pd.read_csv("weather_2012_2014.csv")
 # data['日付'] = pd.to_datetime(data['日付'])
@@ -48,5 +48,27 @@ print(night_counts)
 
 # 積み上げ棒グラフでプロッティングする
 night_counts.plot(kind='bar', stacked=True, rot=0, title=u'都市ごとの夜の天気の割合積み上げグラフ')
+
+## 2 組み合わせ
+## - - - - - - - - - - - - - - - - - - - - - -
+data['1日の天気'] = data['昼の天気'] + 'のち' + data['夜の天気']
+# CSV データのクロス集計をおこなう
+day_counts = crosstab(noon_data1_2['都市'], noon_data1_2['1日の天気'])
+print(day_counts)
+
+day_counts = day_counts.div(day_counts.sum(1), axis=0)
+print(day_counts)
+
+day_counts.plot(kind='bar', stacked=True, rot=0, title=u'都市ごとの天気の移り変わりの割合のグラフ')
+# day_counts.plot(kind='pie', autopct='%.2f',figsize=(6,6),startangle=90)
+
+day_counts_sapporo_pie_graph = pd.Series(day_counts.values[0], index=day_counts.columns.tolist(),name='札幌の天気の移り変わりの割合グラフ')
+day_counts_sapporo_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
+
+day_counts_tokyo_pie_graph = pd.Series(day_counts.values[1], index=day_counts.columns.tolist(),name='東京の天気の移り変わりの割合グラフ')
+day_counts_tokyo_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
+
+day_counts_fukuoka_pie_graph = pd.Series(day_counts.values[0], index=day_counts.columns.tolist(),name='福岡の天気の移り変わりの割合グラフ')
+day_counts_fukuoka_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
 plt.show()
 plt.savefig("image.png")
