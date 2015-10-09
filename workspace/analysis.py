@@ -16,7 +16,7 @@ import pandas as pd
 
 ## 各都市の「昼の天気」と「夜の天気」について、各要素の出現度数について表にまとめよ
 ## 各都市の「昼の天気」と「夜の天気」について、各要素の出現割合を割合の積み上げ棒グラフとして書け
-data = pd.read_csv("weather_2012_2014.csv")
+data = pd.read_csv("/Users/akifumi.tominaga/DataScienceStudy/material/data/weather_2012_2014.csv")
 data['日付'] = pd.to_datetime(data['日付'])
 data = data[data['日付'] >= pd.to_datetime('2014-01-01')]
 data1_2 = data
@@ -103,7 +103,6 @@ print "3Q x:" + str(stats.scoreatpercentile(sapporo_temperature, 75)) #第3四�
 sapporo_data.max()
 
 # 各都市の平均気温の推移を比較すため、横軸を日付、縦軸を平均気温としてわかりや すくグラフ化せよ
-
 df['日付'] = fukuoka_data['日付']
 temperature_all = pd.DataFrame(
     {'日付': fukuoka_data['日付'],
@@ -114,7 +113,7 @@ tokyo_temperature.index = fukuoka_temperature.index
 temperature_all['東京の平均気温'] = tokyo_temperature
 
 sapporo_temperature.index = fukuoka_temperature.index
-temperature_all['東京の平均気温'] = sapporo_temperature
+temperature_all['札幌の平均気温'] = sapporo_temperature
 temperature_all.plot()
 
 temperature_all_box = []
@@ -134,14 +133,30 @@ ax.grid() # グリッド線書いてるだけ
 bp = ax.boxplot(data) # 箱ひげ図を書く
 ax.set_ylim([-20, 40]) # y軸の範囲指定
 ax.set_xticklabels(['Fukuoka','Tokyo', 'Sapporo']) # xlabelの設定
+ax.set_ylim('hoge') # xlabelの設定
+ax.set_xlabel('City')
+ax.set_ylabel('temperature')
 plt.title('Average Temperature')
 plt.show()
 
 plt.title('Violin Plot of Average Temperature')
-plt.xlabel("都市")
-plt.ylabel("温度")
 violinplot(data, points=20,showmeans=True, showextrema=True, showmedians=True)
+bp = ax.violinplot(data)
+plt.show()
 
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+ax.grid() # グリッド線書いてるだけ
+bp = ax.violinplot(data, showextrema=True, showmedians=True) # violinplot
+ax.set_ylim([-20, 40]) # y軸の範囲指定
+ax.set_xticklabels(['', 'Fukuoka','', 'Tokyo', '', 'Sapporo']) # xlabelの設定
+ax.set_xlabel('City')
+ax.set_ylabel('temperature')
+plt.title('Average Template Violin Plot')
+
+plt.show()
 
 
 
