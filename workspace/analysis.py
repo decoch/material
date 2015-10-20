@@ -139,12 +139,6 @@ ax.set_ylabel('temperature')
 plt.title('Average Temperature')
 plt.show()
 
-plt.title('Violin Plot of Average Temperature')
-violinplot(data, points=20,showmeans=True, showextrema=True, showmedians=True)
-bp = ax.violinplot(data)
-plt.show()
-
-
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
@@ -160,3 +154,14 @@ plt.show()
 
 
 
+
+
+##
+import numpy as np
+import matplotlib.pyplot as plt
+
+plt.hist(fukuoka_temperature)
+plt.title("福岡の平均気温のヒストグラム")
+plt.xlabel("気温")
+plt.ylabel("度数")
+plt.show()
