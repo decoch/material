@@ -16,7 +16,7 @@ import pandas as pd
 
 ## 各都市の「昼の天気」と「夜の天気」について、各要素の出現度数について表にまとめよ
 ## 各都市の「昼の天気」と「夜の天気」について、各要素の出現割合を割合の積み上げ棒グラフとして書け
-data = pd.read_csv("/Users/akifumi.tominaga/DataScienceStudy/material/data/weather_2012_2014.csv")
+data = pd.read_csv("~/data_projects/material/data/weather_2012_2014.csv")
 data['日付'] = pd.to_datetime(data['日付'])
 data = data[data['日付'] >= pd.to_datetime('2014-01-01')]
 data1_2 = data
@@ -51,8 +51,10 @@ night_counts.plot(kind='bar', stacked=True, rot=0, title=u'都市ごとの夜の
 
 ## 2 組み合わせ
 ## - - - - - - - - - - - - - - - - - - - - - -
+data = pd.read_csv("~/data_projects/material/data/weather_2012_2014.csv")
 data['1日の天気'] = data['昼の天気'] + 'のち' + data['夜の天気']
 # CSV データのクロス集計をおこなう
+noon_data1_2 = data;
 day_counts = crosstab(noon_data1_2['都市'], noon_data1_2['1日の天気'])
 print(day_counts)
 
@@ -63,18 +65,21 @@ day_counts.plot(kind='bar', stacked=True, rot=0, title=u'都市ごとの天気�
 # day_counts.plot(kind='pie', autopct='%.2f',figsize=(6,6),startangle=90)
 
 day_counts_sapporo_pie_graph = pd.Series(day_counts.values[0], index=day_counts.columns.tolist(),name='札幌の天気の移り変わりの割合グラフ')
-day_counts_sapporo_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
+day_counts_sapporo_pie_graph.sort()
+day_counts_sapporo_pie_graph.plot(kind='pie',autopct='%.1f',figsize=(6,6),startangle=90)
 
 day_counts_tokyo_pie_graph = pd.Series(day_counts.values[1], index=day_counts.columns.tolist(),name='東京の天気の移り変わりの割合グラフ')
-day_counts_tokyo_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
+day_counts_tokyo_pie_graph.sort()
+day_counts_tokyo_pie_graph.plot(kind='pie',autopct='%.1f',figsize=(6,6),startangle=90)
 
-day_counts_fukuoka_pie_graph = pd.Series(day_counts.values[0], index=day_counts.columns.tolist(),name='福岡の天気の移り変わりの割合グラフ')
-day_counts_fukuoka_pie_graph.plot(kind='pie',autopct='%.2f',figsize=(6,6),startangle=90)
+day_counts_fukuoka_pie_graph = pd.Series(day_counts.values[2], index=day_counts.columns.tolist(),name='福岡の天気の移り変わりの割合グラフ')
+day_counts_fukuoka_pie_graph.sort()
+day_counts_fukuoka_pie_graph.plot(kind='pie',autopct='%.1f',figsize=(6,6),startangle=90)
 
 
 ## 下記の設問は、「数値要約」と「分布と傾向の把握」に関するスキルを確認するものである。
 # 各都市について、「平均気温」の最小値、25%点、中央値、平均値、75%点、最大値 をそれぞれ求めよ。
-data = pd.read_csv("weather_2012_2014.csv")
+data = pd.read_csv("~/data_projects/material/data/weather_2012_2014.csv")
 
 sapporo_data = data[data['都市'] == '札幌']
 sapporo_temperature = sapporo_data['平均気温']
@@ -160,8 +165,14 @@ plt.show()
 import numpy as np
 import matplotlib.pyplot as plt
 
-plt.hist(fukuoka_temperature)
-plt.title("福岡の平均気温のヒストグラム")
-plt.xlabel("気温")
-plt.ylabel("度数")
+plt.hist(fukuoka_temperature, range = (-10, 40),alpha = 0.5, color = "blue")
+plt.title("Fukuoka's average temperature histgram")
+plt.xlabel("Temperature")
+plt.ylabel("Frequency")
+plt.show()
+
+plt.hist(tokyo_temperature, range = (-10, 40),alpha = 0.5, color = "red")
+plt.title("Tokyo's average temperature histgram")
+plt.xlabel("Temperature")
+plt.ylabel("Frequency")
 plt.show()
